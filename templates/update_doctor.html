@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Update Doctor</title>
+</head>
+<body>
+    <h2>Update Doctor</h2>
+    <form method="POST">
+        Name: <input type="text" name="name" value="{{ doctor.name }}"><br>
+        Specialization: <input type="text" name="specialization" value="{{ doctor.specialization }}"><br>
+        Phone: <input type="text" name="phone" value="{{ doctor.phone }}"><br>
+        <button type="submit">Update</button>
+    </form>
+</body>
+</html>

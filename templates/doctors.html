@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Doctors</title>
+</head>
+<body>
+    <h2>Doctors</h2>
+
+    <form action="/add_doctor" method="POST">
+        Name: <input type="text" name="name" required>
+        Specialization: <input type="text" name="specialization" required>
+        Phone: <input type="text" name="phone" required>
+        <button type="submit">Add Doctor</button>
+    </form>
+
+    <hr>
+
+    <table border="1">
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Specialization</th>
+            <th>Phone</th>
+            <th>Actions</th>
+        </tr>
+
+        {% for doctor in doctors %}
+        <tr>
+            <td>{{ doctor.doctor_id }}</td>
+            <td>{{ doctor.name }}</td>
+            <td>{{ doctor.specialization }}</td>
+            <td>{{ doctor.phone }}</td>
+            <td>
+                <a href="/update_doctor/{{ doctor.doctor_id }}">Edit</a>
+                <a href="/delete_doctor/{{ doctor.doctor_id }}">Delete</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+</body>
+</html>

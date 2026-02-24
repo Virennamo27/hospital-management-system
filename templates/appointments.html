@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Appointments</title>
+</head>
+<body>
+
+<h2>Manage Appointments</h2>
+
+<form action="/add_appointment" method="POST">
+    
+    Patient:
+    <select name="patient_id" required>
+        {% for patient in patients %}
+            <option value="{{ patient.patient_id }}">
+                {{ patient.name }}
+            </option>
+        {% endfor %}
+    </select>
+    <br><br>
+
+    Doctor:
+    <select name="doctor_id" required>
+        {% for doctor in doctors %}
+            <option value="{{ doctor.doctor_id }}">
+                {{ doctor.name }} ({{ doctor.specialization }})
+            </option>
+        {% endfor %}
+    </select>
+    <br><br>
+
+    Appointment Date:
+    <input type="date" name="appointment_date" required>
+    <br><br>
+
+    Status:
+    <input type="text" name="status" placeholder="Scheduled / Completed" required>
+    <br><br>
+
+    <button type="submit">Add Appointment</button>
+</form>
+
+<hr>
+
+<h3>All Appointments</h3>
+
+<table border="1">
+    <tr>
+        <th>ID</th>
+        <th>Patient ID</th>
+        <th>Doctor ID</th>
+        <th>Date</th>
+        <th>Status</th>
+        <th>Action</th>
+    </tr>
+
+    {% for appointment in appointments %}
+    <tr>
+        <td>{{ appointment.appointment_id }}</td>
+        <td>{{ appointment.patient_id }}</td>
+        <td>{{ appointment.doctor_id }}</td>
+        <td>{{ appointment.appointment_date }}</td>
+        <td>{{ appointment.status }}</td>
+        <td>
+            <a href="/delete_appointment/{{ appointment.appointment_id }}">
+                Delete
+            </a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+
+<br>
+<a href="/">Back to Home</a>
+
+</body>
+</html>
