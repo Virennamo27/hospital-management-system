@@ -1,77 +1,74 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Appointments</title>
-</head>
-<body>
+{% extends "base.html" %}
+{% block content %}
 
-<h2>Manage Appointments</h2>
+<div class="container mt-5">
+    <h2 class="section-title text-center">Appointment Management</h2>
 
-<form action="/add_appointment" method="POST">
-    
-    Patient:
-    <select name="patient_id" required>
-        {% for patient in patients %}
-            <option value="{{ patient.patient_id }}">
-                {{ patient.name }}
-            </option>
-        {% endfor %}
-    </select>
-    <br><br>
+    <div class="card card-custom p-4 mb-5">
+        <h4 class="mb-4">Book Appointment</h4>
 
-    Doctor:
-    <select name="doctor_id" required>
-        {% for doctor in doctors %}
-            <option value="{{ doctor.doctor_id }}">
-                {{ doctor.name }} ({{ doctor.specialization }})
-            </option>
-        {% endfor %}
-    </select>
-    <br><br>
+        <form method="POST" action="/appointments/add">
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    <label class="form-label">Patient</label>
+                    <select name="patient_id" class="form-control" required>
+                        {% for patient in patients %}
+                        <option value="{{ patient.id }}">{{ patient.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
 
-    Appointment Date:
-    <input type="date" name="appointment_date" required>
-    <br><br>
+                <div class="col-md-4 mb-3">
+                    <label class="form-label">Doctor</label>
+                    <select name="doctor_id" class="form-control" required>
+                        {% for doctor in doctors %}
+                        <option value="{{ doctor.id }}">{{ doctor.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
 
-    Status:
-    <input type="text" name="status" placeholder="Scheduled / Completed" required>
-    <br><br>
+                <div class="col-md-4 mb-3">
+                    <label class="form-label">Date</label>
+                    <input type="date" name="date" class="form-control" required>
+                </div>
 
-    <button type="submit">Add Appointment</button>
-</form>
+                <div class="col-md-12">
+                    <button type="submit" class="btn btn-primary-custom w-100">
+                        Book Appointment
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
 
-<hr>
+    <div class="card card-custom p-4">
+        <h4 class="mb-4">Appointments</h4>
 
-<h3>All Appointments</h3>
+        <table class="table table-hover align-middle">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Patient</th>
+                    <th>Doctor</th>
+                    <th>Date</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for appointment in appointments %}
+                <tr>
+                    <td>{{ appointment.id }}</td>
+                    <td>{{ appointment.patient.name }}</td>
+                    <td>{{ appointment.doctor.name }}</td>
+                    <td>{{ appointment.date }}</td>
+                    <td>
+                        <span class="badge badge-status badge-active">Scheduled</span>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
 
-<table border="1">
-    <tr>
-        <th>ID</th>
-        <th>Patient ID</th>
-        <th>Doctor ID</th>
-        <th>Date</th>
-        <th>Status</th>
-        <th>Action</th>
-    </tr>
-
-    {% for appointment in appointments %}
-    <tr>
-        <td>{{ appointment.appointment_id }}</td>
-        <td>{{ appointment.patient_id }}</td>
-        <td>{{ appointment.doctor_id }}</td>
-        <td>{{ appointment.appointment_date }}</td>
-        <td>{{ appointment.status }}</td>
-        <td>
-            <a href="/delete_appointment/{{ appointment.appointment_id }}">
-                Delete
-            </a>
-        </td>
-    </tr>
-    {% endfor %}
-</table>
-
-<br>
-<a href="/">Back to Home</a>
-
-</body>
-</html>
+{% endblock %}

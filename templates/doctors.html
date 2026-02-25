@@ -1,42 +1,67 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Doctors</title>
-</head>
-<body>
-    <h2>Doctors</h2>
+{% extends "base.html" %}
+{% block content %}
 
-    <form action="/add_doctor" method="POST">
-        Name: <input type="text" name="name" required>
-        Specialization: <input type="text" name="specialization" required>
-        Phone: <input type="text" name="phone" required>
-        <button type="submit">Add Doctor</button>
-    </form>
+<div class="container mt-5">
+    <h2 class="section-title text-center">Doctor Management</h2>
 
-    <hr>
+    <div class="card card-custom p-4 mb-5">
+        <h4 class="mb-4">Add New Doctor</h4>
 
-    <table border="1">
-        <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Specialization</th>
-            <th>Phone</th>
-            <th>Actions</th>
-        </tr>
+        <form method="POST" action="/doctors/add">
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    <label class="form-label">Doctor Name</label>
+                    <input type="text" name="name" class="form-control" required>
+                </div>
 
-        {% for doctor in doctors %}
-        <tr>
-            <td>{{ doctor.doctor_id }}</td>
-            <td>{{ doctor.name }}</td>
-            <td>{{ doctor.specialization }}</td>
-            <td>{{ doctor.phone }}</td>
-            <td>
-                <a href="/update_doctor/{{ doctor.doctor_id }}">Edit</a>
-                <a href="/delete_doctor/{{ doctor.doctor_id }}">Delete</a>
-            </td>
-        </tr>
-        {% endfor %}
-    </table>
+                <div class="col-md-4 mb-3">
+                    <label class="form-label">Specialization</label>
+                    <input type="text" name="specialization" class="form-control" required>
+                </div>
 
-</body>
-</html>
+                <div class="col-md-4 mb-3 d-flex align-items-end">
+                    <button type="submit" class="btn btn-primary-custom w-100">
+                        Add Doctor
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="card card-custom p-4">
+        <h4 class="mb-4">Doctor Records</h4>
+
+        <table class="table table-hover align-middle">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Doctor</th>
+                    <th>Specialization</th>
+                    <th>Status</th>
+                    <th class="text-center">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for doctor in doctors %}
+                <tr>
+                    <td>{{ doctor.id }}</td>
+                    <td><strong>{{ doctor.name }}</strong></td>
+                    <td>{{ doctor.specialization }}</td>
+                    <td>
+                        <span class="badge badge-status badge-active">Available</span>
+                    </td>
+                    <td class="text-center">
+                        <a href="/doctors/delete/{{ doctor.id }}"
+                           class="btn btn-sm btn-outline-danger"
+                           onclick="return confirm('Delete doctor?')">
+                           🗑 Delete
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock %}
