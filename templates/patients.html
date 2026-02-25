@@ -1,45 +1,116 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Patients</title>
-</head>
-<body>
-    <h2>Patients</h2>
+{% extends "base.html" %}
+{% block content %}
 
-    <form action="/add_patient" method="POST">
-        Name: <input type="text" name="name" required>
-        Age: <input type="number" name="age" required>
-        Gender: <input type="text" name="gender" required>
-        Phone: <input type="text" name="phone" required>
-        <button type="submit">Add Patient</button>
-    </form>
+<div class="container mt-5">
 
-    <hr>
+    <h2 class="section-title text-center">Patient Management</h2>
 
-    <table border="1">
-        <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Age</th>
-            <th>Gender</th>
-            <th>Phone</th>
-            <th>Actions</th>
-        </tr>
+    <!-- Add Patient Card -->
+    <div class="card card-custom p-4 mb-5">
+        <h4 class="mb-4">Add New Patient</h4>
 
-        {% for patient in patients %}
-        <tr>
-            <td>{{ patient.patient_id }}</td>
-            <td>{{ patient.name }}</td>
-            <td>{{ patient.age }}</td>
-            <td>{{ patient.gender }}</td>
-            <td>{{ patient.phone }}</td>
-            <td>
-                <a href="/update_patient/{{ patient.patient_id }}">Edit</a>
-                <a href="/delete_patient/{{ patient.patient_id }}">Delete</a>
-            </td>
-        </tr>
-        {% endfor %}
-    </table>
+        <form method="POST" action="/patients/add">
+            <div class="row">
 
-</body>
-</html>
+                <div class="col-md-4 mb-3">
+                    <label class="form-label">Full Name</label>
+                    <input type="text" name="name" class="form-control" required>
+                </div>
+
+                <div class="col-md-3 mb-3">
+                    <label class="form-label">Age</label>
+                    <input type="number" name="age" class="form-control" required>
+                </div>
+
+                <div class="col-md-3 mb-3">
+                    <label class="form-label">Gender</label>
+                    <select name="gender" class="form-control" required>
+                        <option value="">Select</option>
+                        <option>Male</option>
+                        <option>Female</option>
+                        <option>Other</option>
+                    </select>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Diagnosis</label>
+                    <input type="text" name="diagnosis" class="form-control" required>
+                </div>
+
+                <div class="col-md-6 mb-3 d-flex align-items-end">
+                    <button type="submit" class="btn btn-primary-custom w-100">
+                        Add Patient
+                    </button>
+                </div>
+
+            </div>
+        </form>
+    </div>
+
+    <!-- Patient Records -->
+    <div class="card card-custom p-4">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h4>Patient Records</h4>
+            <input type="text" id="searchInput" class="form-control search-bar"
+                   placeholder="Search patient...">
+        </div>
+
+        <div class="table-responsive">
+            <table class="table table-hover align-middle" id="patientsTable">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Patient</th>
+                        <th>Age</th>
+                        <th>Diagnosis</th>
+                        <th>Status</th>
+                        <th class="text-center">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for patient in patients %}
+                    <tr>
+                        <td>{{ patient.id }}</td>
+                        <td>
+                            <strong>{{ patient.name }}</strong><br>
+                            <small class="text-muted">{{ patient.gender }}</small>
+                        </td>
+                        <td>{{ patient.age }}</td>
+                        <td>{{ patient.diagnosis }}</td>
+
+                        <td>
+                            {% if patient.age > 60 %}
+                                <span class="badge badge-status badge-critical">High Risk</span>
+                            {% else %}
+                                <span class="badge badge-status badge-active">Stable</span>
+                            {% endif %}
+                        </td>
+
+                        <td class="text-center">
+                            <a href="/patients/delete/{{ patient.id }}"
+                               class="btn btn-sm btn-outline-danger"
+                               onclick="return confirm('Are you sure?')">
+                               🗑 Delete
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+<script>
+document.getElementById("searchInput").addEventListener("keyup", function() {
+    let value = this.value.toLowerCase();
+    let rows = document.querySelectorAll("#patientsTable tbody tr");
+
+    rows.forEach(row => {
+        row.style.display = row.innerText.toLowerCase().includes(value) ? "" : "none";
+    });
+});
+</script>
+
+{% endblock %}

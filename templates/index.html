@@ -1,70 +1,53 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Hospital Management System</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f6f9;
-            margin: 0;
-            padding: 0;
-            text-align: center;
-        }
+{% extends "base.html" %}
+{% block content %}
 
-        header {
-            background-color: #2c3e50;
-            color: white;
-            padding: 20px 0;
-        }
-
-        h1 {
-            margin: 0;
-        }
-
-        .container {
-            margin-top: 60px;
-        }
-
-        .nav-button {
-            display: inline-block;
-            margin: 15px;
-            padding: 15px 30px;
-            text-decoration: none;
-            background-color: #3498db;
-            color: white;
-            border-radius: 8px;
-            font-size: 18px;
-            transition: 0.3s ease;
-        }
-
-        .nav-button:hover {
-            background-color: #2980b9;
-        }
-
-        footer {
-            margin-top: 80px;
-            padding: 20px;
-            background-color: #ecf0f1;
-            font-size: 14px;
-        }
-    </style>
-</head>
-<body>
-
-    <header>
-        <h1>Hospital Management System</h1>
-    </header>
-
+<section class="hero">
     <div class="container">
-        <a class="nav-button" href="/patients">Manage Patients</a>
-        <a class="nav-button" href="/doctors">Manage Doctors</a>
-        <a class="nav-button" href="/appointments">Manage Appointments</a>
-        <a class="nav-button" href="/billing">Manage Billing</a>
+        <h1 class="display-4 fw-bold">Redefining Modern Hospital Management</h1>
+        <p class="lead mt-3">
+            Seamlessly manage patients, doctors, appointments and billing in a secure cloud environment.
+        </p>
+        <a href="/patients" class="btn btn-primary-custom btn-lg mt-4">
+            Manage System
+        </a>
     </div>
+</section>
 
-    <footer>
-        © 2026 Hospital Management System | Built with Flask & PostgreSQL
-    </footer>
+<div class="container mt-5">
 
-</body>
-</html>
+    <h2 class="text-center section-title">Hospital Overview</h2>
+
+    <div class="row text-center">
+
+        <div class="col-md-3 mb-4">
+            <div class="card card-custom p-4">
+                <h2>150+</h2>
+                <p>Doctors</p>
+            </div>
+        </div>
+
+        <div class="col-md-3 mb-4">
+            <div class="card card-custom p-4">
+                <h2>1200+</h2>
+                <p>Patients</p>
+            </div>
+        </div>
+
+        <div class="col-md-3 mb-4">
+            <div class="card card-custom p-4">
+                <h2>300+</h2>
+                <p>Appointments</p>
+            </div>
+        </div>
+
+        <div class="col-md-3 mb-4">
+            <div class="card card-custom p-4">
+                <h2>98%</h2>
+                <p>Satisfaction Rate</p>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}
